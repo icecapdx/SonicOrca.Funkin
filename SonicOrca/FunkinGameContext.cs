@@ -9,6 +9,8 @@ using SonicOrca.Geometry;
 using SonicOrca.Graphics;
 using SonicOrca.Input;
 using SonicOrca.Resources;
+// Funkin
+using SonicOrca.Funkin.Meta.State;
 
 namespace SonicOrca.Funkin
 {
@@ -16,6 +18,8 @@ namespace SonicOrca.Funkin
     {
         private IFramebuffer _canvas;
         private FunkinGameSettings _settings;
+        private IGameState _rootGameState;
+        private Updater _gameStateUpdater;
 
         public FunkinGameContext(IPlatform platform) : base(platform)
         {
@@ -44,6 +48,14 @@ namespace SonicOrca.Funkin
             LoadResourceFiles(Path.Combine(contentRoot, "data"));
             if (bool.Parse(Configuration.GetProperty("general", "use_mods", "true")))
                 LoadResourceFiles(Path.Combine(contentRoot, "mods"));
+            _rootGameState = new PlayState(this);
+            _gameStateUpdater = new Updater(_rootGameState.Update());
+        }
+
+        public override void Dispose()
+        {
+            _rootGameState?.Dispose();
+            base.Dispose();
         }
 
         protected override void OnUpdate()
@@ -57,6 +69,8 @@ namespace SonicOrca.Funkin
         {
             Console.Update();
             NetworkManager.Update();
+            if (!_gameStateUpdater.Update())
+                Finish = true;
             if (Input.Pressed.Keyboard[41])
                 Finish = true;
             foreach (Controller controller in Controllers)
@@ -73,9 +87,7 @@ namespace SonicOrca.Funkin
             else
                 Window.GraphicsContext.RenderToBackBuffer();
             Window.GraphicsContext.ClearBuffer();
-            r2d.BlendMode = BlendMode.Opaque;
-            r2d.Colour = new Colour(0.12, 0.14, 0.22, 1.0);
-            r2d.RenderQuad(r2d.Colour, r2d.ClipRectangle);
+            _rootGameState.Draw();
             Renderer.DeativateRenderer();
             Console.Draw(Renderer);
             Renderer.DeativateRenderer();

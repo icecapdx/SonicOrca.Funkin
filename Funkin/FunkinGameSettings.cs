@@ -1,10 +1,11 @@
 using SonicOrca;
 using SonicOrca.Audio;
+using SonicOrca.Geometry;
 using SonicOrca.Graphics;
 
-namespace SonicOrca.GameTemplate
+namespace SonicOrca.Funkin
 {
-    internal sealed class TemplateGameSettings : IAudioSettings, IVideoSettings
+    internal sealed class FunkinGameSettings : IAudioSettings, IVideoSettings
     {
         private readonly AudioContext _audioContext;
         private readonly WindowContext _windowContext;
@@ -82,7 +83,7 @@ namespace SonicOrca.GameTemplate
             }
         }
 
-        public TemplateGameSettings(IniConfiguration config, AudioContext audioContext, WindowContext windowContext)
+        public FunkinGameSettings(IniConfiguration config, AudioContext audioContext, WindowContext windowContext)
         {
             _config = config;
             _audioContext = audioContext;
@@ -92,12 +93,23 @@ namespace SonicOrca.GameTemplate
             _mode = VideoMode.Windowed;
             if (int.TryParse(config.GetProperty("video", "fullscreen", "0"), out int fullscreen))
                 _mode = (VideoMode)fullscreen;
-            Resolution = new Resolution(1920, 1080);
+            int rw = 1280;
+            int rh = 720;
+            if (int.TryParse(config.GetProperty("video", "width"), out int cw) && cw > 0)
+                rw = cw;
+            if (int.TryParse(config.GetProperty("video", "height"), out int ch) && ch > 0)
+                rh = ch;
+            Resolution = new Resolution(rw, rh);
             _enableShadows = config.GetPropertyBoolean("graphics", "shadows", true);
             _enableWaterEffects = config.GetPropertyBoolean("graphics", "water_effects", true);
             _enableHeatEffects = config.GetPropertyBoolean("graphics", "heat_effects");
         }
 
-        public void Apply() => _windowContext.Mode = _mode;
+        public void Apply()
+        {
+            _windowContext.Mode = _mode;
+            if (_mode == VideoMode.Windowed)
+                _windowContext.ClientSize = new Vector2i(Resolution.Width, Resolution.Height);
+        }
     }
 }

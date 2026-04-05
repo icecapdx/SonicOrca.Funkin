@@ -10,14 +10,14 @@ using SonicOrca.Graphics;
 using SonicOrca.Input;
 using SonicOrca.Resources;
 
-namespace SonicOrca.GameTemplate
+namespace SonicOrca.Funkin
 {
-    internal sealed class TemplateGameContext : SonicOrcaGameContext
+    internal sealed class FunkinGameContext : SonicOrcaGameContext
     {
         private IFramebuffer _canvas;
-        private TemplateGameSettings _settings;
+        private FunkinGameSettings _settings;
 
-        public TemplateGameContext(IPlatform platform) : base(platform)
+        public FunkinGameContext(IPlatform platform) : base(platform)
         {
         }
 
@@ -36,9 +36,9 @@ namespace SonicOrca.GameTemplate
             Audio.MusicVolume = Configuration.GetPropertyDouble("audio", "music_volume", 0.5);
             Audio.SoundVolume = Configuration.GetPropertyDouble("audio", "sound_volume", 1.0);
             Input.IsVibrationEnabled = Configuration.GetPropertyBoolean("input", "vibration", true);
-            _settings = new TemplateGameSettings(Configuration, Audio, Window);
+            _settings = new FunkinGameSettings(Configuration, Audio, Window);
             _settings.Apply();
-            Window.WindowTitle = "SonicOrca Game Template";
+            Window.WindowTitle = "Friday Night Funkin'";
             Window.AspectRatio = new Vector2i(16, 9);
             string contentRoot = GetContentRootDirectory();
             LoadResourceFiles(Path.Combine(contentRoot, "data"));

@@ -7,7 +7,7 @@ using System.Threading;
 using SonicOrca;
 using SonicOrca.SDL2;
 
-namespace SonicOrca.GameTemplate
+namespace SonicOrca.Funkin
 {
     public static class Program
     {
@@ -15,14 +15,14 @@ namespace SonicOrca.GameTemplate
         public static string AppArchitecture = Environment.Is64BitProcess ? "x64" : "x86";
         public static Version AppMinOpenGLVersion = new Version(3, 3);
 
-        internal const string IniConfigurationPath = "sonicorca.cfg";
+        internal const string IniConfigurationPath = "funkin-sonicorca.cfg";
 
         public static IniConfiguration Configuration { get; private set; }
 
         public static string UserDataDirectory =>
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "SonicOrca");
 
-        internal static string LogPath => Path.Combine(UserDataDirectory, "sonicorca-gametemplate.log");
+        internal static string LogPath => Path.Combine(UserDataDirectory, "funkin-sonicorca.log");
 
         public static IReadOnlyList<string> CommandLineArguments { get; private set; }
 
@@ -62,7 +62,7 @@ namespace SonicOrca.GameTemplate
         private static void RunOrFocusGame()
         {
             bool createdNew;
-            using (new Mutex(true, "SonicOrca.GameTemplate", out createdNew))
+            using (new Mutex(true, "SonicOrca.Funkin", out createdNew))
             {
                 if (createdNew || Configuration.GetPropertyBoolean("debug", "allow_multiple_instances"))
                     RunGame();
@@ -89,15 +89,15 @@ namespace SonicOrca.GameTemplate
                 }
                 if (!CheckOpenGL(platform))
                     return;
-                using (var context = new TemplateGameContext(platform))
+                using (var context = new FunkinGameContext(platform))
                 {
                     try
                     {
-                        Trace.WriteLine("Initialising game template");
+                        Trace.WriteLine("Initialising game context");
                         Trace.Indent();
                         context.Initialise();
                         Trace.Unindent();
-                        Trace.WriteLine("Running game template (Escape to quit)");
+                        Trace.WriteLine("Running Friday Night Funkin' (But on the SonicOrca engine)");
                         Trace.Indent();
                         context.Run();
                     }
@@ -151,7 +151,7 @@ namespace SonicOrca.GameTemplate
             Trace.WriteLine("ERROR: " + text);
             Console.Error.WriteLine(text);
 #if WINDOWS_MESSAGE_BOX
-            WindowsShell.ShowMessageBox(text, "SonicOrca Game Template");
+            WindowsShell.ShowMessageBox(text, "Friday Night Funkin'");
 #endif
         }
 
@@ -167,7 +167,7 @@ namespace SonicOrca.GameTemplate
                 _traceListenersAdded = true;
             }
             Trace.WriteLine(Environment.OSVersion);
-            Trace.WriteLine($"SonicOrca.GameTemplate {AppVersion} [{AppArchitecture}]");
+            Trace.WriteLine($"SonicOrca.Funkin {AppVersion} [{AppArchitecture}]");
             Trace.WriteLine(DateTime.Now.ToString("dd MMMM yyyy @ hh:mm tt"));
             Trace.WriteLine(new string('-', 80));
             Trace.Indent();

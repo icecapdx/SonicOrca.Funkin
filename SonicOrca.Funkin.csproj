@@ -4,8 +4,8 @@
     <TargetFramework>net10.0</TargetFramework>
     <Platforms>AnyCPU;x64;x86</Platforms>
     <DefaultItemExcludes>$(DefaultItemExcludes);$(MSBuildProjectDirectory)/external/**</DefaultItemExcludes>
-    <AssemblyName>SonicOrca.GameTemplate</AssemblyName>
-    <RootNamespace>SonicOrca.GameTemplate</RootNamespace>
+    <AssemblyName>SonicOrca.Funkin</AssemblyName>
+    <RootNamespace>SonicOrca.Funkin</RootNamespace>
     <LangVersion>12</LangVersion>
     <Nullable>disable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>

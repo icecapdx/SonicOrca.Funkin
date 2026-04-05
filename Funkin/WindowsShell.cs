@@ -2,7 +2,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace SonicOrca.GameTemplate
+namespace SonicOrca.Funkin
 {
     internal static class WindowsShell
     {

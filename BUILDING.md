@@ -11,7 +11,7 @@ Use Visual Studio
 Use VSCode or...:
 
 ```bash
-dotnet restore SonicOrca.GameTemplate.sln
-dotnet build SonicOrca.GameTemplate.sln -c Debug -p:Platform=x64
-dotnet publish SonicOrca.GameTemplate.csproj -c Release -r linux-x64 --self-contained true -p:Platform=x64
+dotnet restore SonicOrca.Funkin.sln
+dotnet build SonicOrca.Funkin.sln -c Debug -p:Platform=x64
+dotnet publish SonicOrca.Funkin.csproj -c Release -r linux-x64 --self-contained true -p:Platform=x64
 ```

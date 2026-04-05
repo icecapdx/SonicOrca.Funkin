@@ -1,0 +1,9 @@
+<Project>
+  <PropertyGroup>
+    <WarningLevel>0</WarningLevel>
+    <NoWarn>$(NoWarn);NU1701</NoWarn>
+    <RunAnalyzers>false</RunAnalyzers>
+    <EnableNETAnalyzers>false</EnableNETAnalyzers>
+    <MSBuildTreatWarningsAsErrors>false</MSBuildTreatWarningsAsErrors>
+  </PropertyGroup>
+</Project>
